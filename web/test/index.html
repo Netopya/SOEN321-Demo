@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Test</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="fingerprint2.min.js"></script>
+  <script>
+  
+    $(function() {
+        new Fingerprint2().get(function(result, components){
+                // this will use all available fingerprinting sources
+                console.log(result);
+                // components is an array of all fingerprinting components used
+                console.log(components);
+
+                $.post(
+                    "http://www.netopyaplanet.com/soen321/online/get.php", 
+                    { 
+                        fingerprint: result,
+                        key: "TestKey"
+                    }).done(function(data) {
+                        var response = JSON.parse(data);
+                        if(response.length == 0)
+                        {
+                            $("#response").html("I have no secret about you!");
+                        }
+                        else
+                        {
+                            $("#response").html("You once told me: " + response[0].value);
+                        }
+                    });;
+                });
+    });
+    
+  </script>
+</head>
+
+<body>
+    <span id="response"></span>
+</body>
+</html>
