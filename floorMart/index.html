@@ -24,7 +24,54 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="js/fingerprint2.min.js"></script>
+  <script>
+  
+    $(function() {
+        new Fingerprint2().get(function(result, components){
+                // this will use all available fingerprinting sources
+                console.log(result);
+                // components is an array of all fingerprinting components used
+                console.log(components);
 
+                $.post(
+                    "http://www.netopyaplanet.com/soen321/online/get.php", 
+                    { 
+                        fingerprint: result,
+                        key: "TestKey"
+                    }).done(function(data) {
+                        var response = JSON.parse(data);
+                        if(response.length == 0)
+                        {
+                            $("#topWord").html("nothing");
+                        }
+                        else
+                        {
+                            var response = response[0].value;
+                            var topWordValue = "";
+                            if (response=="car"){
+                                topWordValue = "cars";
+                                $("#carSale").html("SUPER SALE");
+                            } else if (response == "boat"){
+                                topWordValue = "boats";
+                                $("#boatSale").html("SUPER SALE");
+                            } else if (response =="game"){
+                                topWordValue = "games";
+                                $("#gameSale").html("SUPER SALE");
+                            } else if (response =="horse"){
+                                topWordValue = "horses on submarines";
+                                $("#horseSale").html("SUPER SALE");
+                            } else {
+                                topWordValue = "nothing";
+                            }
+                            $("#topWord").html(topWordValue);
+                        }
+                    });;
+                });
+    });
+    
+  </script>
 </head>
 
 <body>
@@ -75,7 +122,7 @@
                         <h3>The Best Cars Ever</h3>
                         <p>Our cars are so good that you will not need to buy another one ever!</p>
                         <p>
-                            <a href="#" class="btn btn-primary"><span id="carSale" class="secretSale">SUPER SALE</span> Buy Now!</a>
+                            <a href="#" class="btn btn-primary"><span id="carSale" class="secretSale"></span> Buy Now!</a>
                         </p>
                     </div>
                 </div>
@@ -88,7 +135,7 @@
                         <h3>Video Games</h3>
                         <p>Check out these cool video games we have for sale here!</p>
                         <p>
-                            <a href="#" class="btn btn-primary"><span id="gameSale" class="secretSale">SUPER SALE</span> Buy Now!</a>
+                            <a href="#" class="btn btn-primary"><span id="gameSale" class="secretSale"></span> Buy Now!</a>
                         </p>
                     </div>
                 </div>
@@ -101,7 +148,7 @@
                         <h3>Boats</h3>
                         <p>We carry an exceptional variety of quality boats.</p>
                         <p>
-                            <a href="#" class="btn btn-primary"><span id="boatSale" class="secretSale">SUPER SALE</span> Buy Now!</a>
+                            <a href="#" class="btn btn-primary"><span id="boatSale" class="secretSale"></span> Buy Now!</a>
                         </p>
                     </div>
                 </div>
@@ -114,7 +161,7 @@
                         <h3>Horses on Submarines</h3>
                         <p>No clarification needed.</p>
                         <p>
-                            <a href="#" class="btn btn-primary"><span id="horseSale" class="secretSale">SUPER SALE</span> Buy Now!</a>
+                            <a href="#" class="btn btn-primary"><span id="horseSale" class="secretSale"></span> Buy Now!</a>
                         </p>
                     </div>
                 </div>
