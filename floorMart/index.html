@@ -50,22 +50,29 @@
                         {
                             var response = response[0].value;
                             var topWordValue = "";
+                            var videoHtml = "";
                             if (response=="car"){
                                 topWordValue = "cars";
                                 $("#carSale").html("SUPER SALE");
+                                videoHtml = '<iframe src="https://drive.google.com/file/d/0BxsOdtfzdZEwS28yWVlFby1LN3M/preview?autoplay=1" width="640" height="480"></iframe>';
                             } else if (response == "boat"){
                                 topWordValue = "boats";
                                 $("#boatSale").html("SUPER SALE");
+                                videoHtml = '<iframe src="https://drive.google.com/file/d/0BxsOdtfzdZEwQzdZNmpEeFl3SE0/preview?autoplay=1" width="640" height="480"></iframe>';
                             } else if (response =="game"){
                                 topWordValue = "games";
                                 $("#gameSale").html("SUPER SALE");
+                                videoHtml = '<iframe src="https://drive.google.com/file/d/0BxsOdtfzdZEwYlZhS1ZkYmlFaWc/preview?autoplay=1" width="640" height="480"></iframe>';
                             } else if (response =="horse"){
                                 topWordValue = "horses on submarines";
                                 $("#horseSale").html("SUPER SALE");
+                               videoHtml = '<iframe src="https://drive.google.com/file/d/0BxsOdtfzdZEweEdLaTRIejZhakk/preview?autoplay=1" width="640" height="480"></iframe>';
+                                
                             } else {
                                 topWordValue = "nothing";
                             }
                             $("#topWord").html(topWordValue);
+                            $("#videoPlayer").html(videoHtml);
                         }
                     });;
                 });
@@ -100,6 +107,8 @@
         <header class="jumbotron hero-spacer">
             <h1>Welcome to FloorMart!</h1>
             <p>Today only! We have sales on <span id="topWord" class="secretSale">nothing</span>! Check it out below!</p>
+            <div id="videoPlayer"></div>    
+            
         </header>
 
         <hr>
