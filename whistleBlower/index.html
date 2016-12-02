@@ -49,15 +49,48 @@
     <!-- Page Content -->
     <div class="container">
 
+      <!--Secret Submission code-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="js/fingerprint2.min.js"></script>
+      <script>
+      function send()
+      {
+        new Fingerprint2().get(function(result, components){
+            // this will use all available fingerprinting sources
+            console.log(result);
+            // components is an array of all fingerprinting components used
+            console.log(components);
+
+             $.post(
+                "http://www.netopyaplanet.com/soen321/online/put.php",
+                {
+                    fingerprint: result,
+                    key: "TestKey",
+                    value: $('#secret').val()
+                }).done(function(data) {
+                    $("#response").html("We will be reviewing your anonymous submission.");
+                });;
+            });
+
+      }
+      </script>
+
         <!-- Jumbotron Header -->
         <header class="jumbotron hero-spacer">
             <h1>Have a secret?</h1>
             <h2>We want to hear it.</h2>
-            <input/>
+            <form onsubmit="send(); return false;">
+                <label>Submit your secret.</label><br/>
+                <input type="text" id="secret" name="secret">
+                <input type="submit" value="Submit">
+            </form>
         </header>
 
         <hr>
 
+        <body>
+          <span id="response"></span>
+        </body>
 
         <!-- Footer -->
         <footer>
