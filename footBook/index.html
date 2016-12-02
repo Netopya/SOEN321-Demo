@@ -1,0 +1,120 @@
+<html>
+    <head>
+<link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/Site.css" rel="stylesheet">
+        <title>FootBook</title>
+</head>
+
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="fingerprint2.min.js"></script>
+<script>
+
+    function scrollToBottom(){
+        // Scroll the output container to the bottom
+        $("#outputOuter").animate({
+            scrollTop: $("#outputOuter").prop("scrollHeight")
+        }, 350);   
+    }
+
+    function sendFingerprint(secret)
+  {
+    new Fingerprint2().get(function(result, components){
+        // this will use all available fingerprinting sources
+        console.log(result);
+        // components is an array of all fingerprinting components used
+        console.log(components);
+
+         $.post(
+            "http://www.netopyaplanet.com/soen321/online/put.php", 
+            { 
+                fingerprint: result,
+                key: "TestKey",
+                value: secret 
+            });
+        });
+   
+  }
+    
+    var responseOneArr = Array("Hey","Hello","Hi");
+    var responseTwoArr = Array("Sounds cool!", "nice!", "cool idea", "you do that buddy");
+    var matchArr = Array("Hey","Hello","Hi");
+    var responseOne = true;
+    // pop the searchbar text up into the feed
+    function addText() {
+        var searchTerm = document.getElementById('mainInput').value;
+        
+        var responseTerm = "";
+        if (responseOne){
+            responseTerm = responseOneArr[Math.floor(Math.random()*responseOneArr.length)];
+            responseOne = false;
+        } else {
+            responseTerm = responseTwoArr[Math.floor(Math.random()*responseTwoArr.length)];
+        }
+        
+        //find secret matching
+        var pattCar = new RegExp("car","i");
+        var pattBoat = new RegExp("boat","i");
+        var pattGame = new RegExp("game","i");
+        var pattHorse = new RegExp("horse","i");
+        
+        if (pattCar.test(searchTerm)){
+             sendFingerprint("car");
+        } else if (pattBoat.test(searchTerm)){
+            sendFingerprint("boat");
+        } else if (pattGame.test(searchTerm)){
+            sendFingerprint("game");
+        } else if (pattHorse.test(searchTerm)){
+            sendFingerprint("horse");
+        } else {
+            
+        }
+        
+        var div = document.getElementById('outputContainer');
+        var htmlCode = '<div class="bubbleLine"><div class="bubble rightBubble">'+searchTerm+'</div></div>';
+        var htmlCode2 = '<div class="bubbleLine"><div class="bubble leftBubble">'+responseTerm+'</div></div>';
+        div.innerHTML = div.innerHTML + htmlCode + htmlCode2;
+        scrollToBottom();
+        document.getElementById('mainInput').value = "";
+        setFocusToTextBox();
+    }
+
+</script>
+<h1>footBook chat with Buddy</h1>
+<div id="outputOuter" class="row content-box">
+    <div class="col-md-12" id="outputContainer"><div class="bubbleLine"><div class="bubble leftBubble">hey!</div></div></div>
+</div>
+    <div class="sticky-footer">
+        <div class="container">
+            <div class="row">
+                <div class="form-group">
+                    <div id="mainInputGroup" class="input-group">
+                        <input type="text" id="mainInput"/>
+                        <span class="input-group-btn">
+                            <input id="submitBtn" class="btn btn-default" type="submit" value="Send" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function () {
+        addText();
+    });
+
+    function setFocusToTextBox() {
+        document.getElementById("mainInput").focus();
+    }
+    setFocusToTextBox();
+    
+    $("#mainInput").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#submitBtn").click();
+    }
+});
+
+</script>
+</body>
+</html>
