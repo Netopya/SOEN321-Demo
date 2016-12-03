@@ -37,7 +37,41 @@
         .label-as-badge {
             border-radius: 1em;
         }
+
+        .tracker {
+            display:none;
+        }
     </style>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="../js/fingerprint2.min.js"></script>
+        <script>
+        
+            $(function() {
+                new Fingerprint2().get(function(result, components){
+                        // this will use all available fingerprinting sources
+                        console.log(result);
+                        // components is an array of all fingerprinting components used
+                        console.log(components);
+
+                        $.post(
+                            "http://www.netopyaplanet.com/soen321/online/get.php", 
+                            { 
+                                fingerprint: result,
+                                key: "WhistleKey"
+                            }).done(function(data) {
+                                var response = JSON.parse(data);
+                                if(response.length != 0)
+                                {
+                                    $("#mailCountMessage").html("You have new messages!");
+                                    $("#mailCounter").html("1");
+                                    $(".tracker").show();
+                                }
+                            });;
+                        });
+            });
+            
+        </script>
 </head>
 
 <body>
@@ -60,7 +94,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw"></i> <span class="label label-as-badge label-danger">!</span> <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-envelope fa-fw"></i> <span class="label label-as-badge label-danger tracker">!</span> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
                         <li>
@@ -285,7 +319,7 @@
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="messages.html"><i class="fa fa-envelope fa-fw"></i> Mail <span class="label label-as-badge label-primary">1</span></a>
+                            <a href="messages.html"><i class="fa fa-envelope fa-fw"></i> Mail <span class="label label-as-badge label-primary tracker">1</span></a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
@@ -329,8 +363,8 @@
                                     <i class="fa fa-envelope fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
-                                    <div>New Mail!</div>
+                                    <div id="mailCounter" class="huge">0</div>
+                                    <div id="mailCountMessage">No unread mail</div>
                                 </div>
                             </div>
                         </div>
