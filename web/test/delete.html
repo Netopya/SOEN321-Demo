@@ -1,0 +1,36 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Delete all fingerprint</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="fingerprint2.min.js"></script>
+  <script>
+  
+    $(function() {
+        new Fingerprint2().get(function(result, components){
+                // this will use all available fingerprinting sources
+                console.log(result);
+                // components is an array of all fingerprinting components used
+                console.log(components);
+
+                $.post(
+                    "http://www.netopyaplanet.com/soen321/online/delete.php", 
+                    { 
+                        fingerprint: result
+                    }).done(function(data) {
+                        $("#response").html(data);
+                    });;
+                });
+    });
+    
+  </script>
+</head>
+
+<body>
+    <span id="response"></span>
+</body>
+</html>
